@@ -13,7 +13,6 @@ namespace BookStore.BL
             _personRepository = personRepository;
         }
 
-
         public Person? AddPerson(Person user)
         {
             _personRepository.AddPerson(user);
@@ -24,7 +23,6 @@ namespace BookStore.BL
         {
             throw new NotImplementedException();
         }
-
 
         public IEnumerable<Person> GetAllPersons()
         {
@@ -40,12 +38,10 @@ namespace BookStore.BL
         {
             throw new NotImplementedException();
         }
-
         public Guid GetGuid()
         {
             throw new NotImplementedException();
         }
-
         public Person UpdatePerson(Person user)
         {
             throw new NotImplementedException();
