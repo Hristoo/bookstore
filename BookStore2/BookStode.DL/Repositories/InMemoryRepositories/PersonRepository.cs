@@ -5,7 +5,7 @@ namespace BookStode.DL.Repositories.InMemoryRepositories
 {
     public class PersonRepository : IPersonRepository
     {
-        private static List<Person> _persons = new List<Person>()
+        public static List<Person> _persons = new List<Person>()
         {
             new Person()
             {
