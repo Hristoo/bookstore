@@ -76,9 +76,5 @@ namespace BookStode.DL.Repositories.InMemoryRepositories
             return author;
         }
 
-        public Guid GetGuid()
-        {
-            return Id;
-        }
     }
 }

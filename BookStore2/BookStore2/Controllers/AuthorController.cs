@@ -1,5 +1,7 @@
 ﻿using BookStode.DL.interfaces;
 using BookStode.DL.Interfaces;
+using BookStore.BL.Interfaces;
+using BookStore.BL.Services;
 using BookStore.Models.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,42 +12,46 @@ namespace BookStore2.Controllers
 
     public class AuthorController : ControllerBase
     {
-        private readonly IAuthorRepository _authorRepository;
-        private readonly ILogger<AuthorController> _logger;
+        private readonly IAuthorService _authorService;
+        private readonly ILogger<AuthorService> _logger;
 
-        public AuthorController(ILogger<AuthorController> logger, IAuthorRepository authorRepository)
+        public AuthorController(ILogger<AuthorService> logger, IAuthorService authorService)
         {
             _logger = logger;
-            _authorRepository = authorRepository;
+            _authorService = authorService;
         }
 
         [HttpGet(nameof(Get))]
 
         public IEnumerable<Author> Get()
         {
-            return _authorRepository.GetAllAuthors();
+            return _authorService.GetAllAuthors();
         }
 
         [HttpGet(nameof(GetById))]
         public Author? GetById(int id)
         {
-            var user = _authorRepository.GetById(id);
+            var user = _authorService.GetById(id);
             return user;
         }
 
         [HttpPost(nameof(Add))]
-        public bool Add(Author user)
+        public bool Add(Author author)
         {
-            _authorRepository.AddAuthor(user);
+            _authorService.AddAuthor(author);
             return true;
         }
 
-        [HttpGet(nameof(GetGuid))]
-
-        public Guid GetGuid()
+        [HttpPost(nameof(DeleteAuthor))]
+        public Person DeleteAuthor(int authorId)
         {
-            return _authorRepository.GetGuid();
+            var author = _authorService.GetById(authorId);
+
+            _authorService.DeleteAutor(authorId);
+
+            return author;
         }
+
 
     }
 }

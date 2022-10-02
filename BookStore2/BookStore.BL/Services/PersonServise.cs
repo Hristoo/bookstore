@@ -13,43 +13,37 @@ namespace BookStore.BL
             _personRepository = personRepository;
         }
 
-        public Person? AddPerson(Person user)
+        public Person? AddPerson(Person person)
         {
-            _personRepository.AddPerson(user);
-            return user;
+            _personRepository.AddPerson(person);
+            return person;
         }
 
-        public Person? DeletePerson(int userId)
+        public Person? DeletePerson(int personId)
         {
-            throw new NotImplementedException();
+            var person = _personRepository.GetById(personId);
+
+            _personRepository.DeletePerson(personId);
+
+            return person;
         }
 
         public IEnumerable<Person> GetAllPersons()
         {
-           return _personRepository.GetAllPersons();
-        }
-
-        public IEnumerable<Person> GetAllUsers()
-        {
-            throw new NotImplementedException();
+            return _personRepository.GetAllPersons();
         }
 
         public Person? GetById(int id)
         {
-            throw new NotImplementedException();
+            return _personRepository.GetById(id);
         }
         public Guid GetGuid()
         {
             throw new NotImplementedException();
         }
-        public Person UpdatePerson(Person user)
+        public Person UpdatePerson(Person person)
         {
-            throw new NotImplementedException();
-        }
-
-        public Person UpdateUser(Person user)
-        {
-            throw new NotImplementedException();
+            return _personRepository.UpdatePerson(person);
         }
     }
 }

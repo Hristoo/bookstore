@@ -5,15 +5,15 @@ namespace BookStore.BL.Interfaces
 {
     public interface IPersonService : IPersonRepository
     {
-        Person? AddPerson(Person user);
+        Person? AddPerson(Person person);
 
-        Person? DeletePerson(int userId);
+        Person? DeletePerson(int personId);
 
         IEnumerable<Person> GetAllPersons();
 
         Person? GetById(int id);
 
-        Person UpdatePerson(Person user);
+        Person UpdatePerson(Person person);
 
         Guid GetGuid();
     }

@@ -40,36 +40,36 @@ namespace BookStode.DL.Repositories.InMemoryRepositories
             return _persons.FirstOrDefault(x => x.Id == id);
         }
 
-        public Person? AddPerson(Person user)
+        public Person? AddPerson(Person person)
         {
             try
             {
-                _persons.Add(user);
+                _persons.Add(person);
 
             }
             catch (Exception e)
             {
                 return null;
             }
-            return user;
+            return person;
         }
 
-        public Person UpdatePerson(Person user)
+        public Person UpdatePerson(Person person)
         {
-            var existingUser = _persons.FirstOrDefault(x => x.Id == user.Id);
+            var existingUser = _persons.FirstOrDefault(x => x.Id == person.Id);
 
             if (existingUser == null) return null;
 
             _persons.Remove(existingUser);
 
-            _persons.Add(user);
+            _persons.Add(person);
 
-            return user;
+            return person;
         }
 
-        public Person? DeletePerson(int userId)
+        public Person? DeletePerson(int personId)
         {
-            var person = _persons.FirstOrDefault(x => x.Id == userId);
+            var person = _persons.FirstOrDefault(x => x.Id == personId);
 
             _persons.Remove(person);
 

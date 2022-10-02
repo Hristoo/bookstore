@@ -10,7 +10,6 @@ namespace BookStode.DL.Interfaces
         Author? DeleteAutor(int authorId);
         IEnumerable<Author> GetAllAuthors();
         Author? GetById(int id);
-        Guid GetGuid();
         Person UpdateAuthor(Author autor);
     }
 }

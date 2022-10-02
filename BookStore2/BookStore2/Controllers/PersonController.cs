@@ -45,6 +45,16 @@ namespace BookStore2.Controllers
             return true;
         }
 
+        [HttpPost(nameof(DeletePerson))]
+        public Person DeletePerson(int personId)
+        {
+            var person = _personServise.GetById(personId);
+
+            _personServise.DeletePerson(personId);
+
+            return person;
+        }
+
         [HttpGet(nameof(GetGuid))]
 
         public Guid GetGuid()
