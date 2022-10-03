@@ -37,10 +37,7 @@ namespace BookStore.BL
         {
             return _personRepository.GetById(id);
         }
-        public Guid GetGuid()
-        {
-            throw new NotImplementedException();
-        }
+
         public Person UpdatePerson(Person person)
         {
             return _personRepository.UpdatePerson(person);

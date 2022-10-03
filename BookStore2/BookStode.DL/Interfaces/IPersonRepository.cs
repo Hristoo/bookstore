@@ -14,6 +14,6 @@ namespace BookStode.DL.interfaces
 
         Person UpdatePerson(Person person);
 
-        Guid GetGuid();
+ 
     }
 }

@@ -10,26 +10,26 @@ namespace BookStode.DL.Repositories.InMemoryRepositories
             new Person()
             {
                 Id = 1,
-                Name = "Ivan"
-            },
+                Name = "Ivan",
+                Age = 25,
+                DateOfBirth = DateTime.Now
+,            },
             new Person()
             {
                 Id = 2,
-                Name = "Petko"
+                Name = "Petko",
+                Age= 29,
+                DateOfBirth = DateTime.Now
             },
             new Person()
             {
                 Id = 3,
-                Name = "Kerana"
+                Name = "Kerana",
+                Age = 32,
+                DateOfBirth = DateTime.Now
             }
         };
 
-        public Guid Id { get; set; }
-
-        public PersonRepository()
-        {
-            Id = Guid.NewGuid();
-        }
         public IEnumerable<Person> GetAllPersons()
         {
             return _persons;
@@ -76,9 +76,6 @@ namespace BookStode.DL.Repositories.InMemoryRepositories
             return person;
         }
 
-        public Guid GetGuid()
-        {
-            return Id;
-        }
+     
     }
 }

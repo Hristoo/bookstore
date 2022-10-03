@@ -13,9 +13,9 @@ namespace BookStore2.Controllers
     public class AuthorController : ControllerBase
     {
         private readonly IAuthorService _authorService;
-        private readonly ILogger<AuthorService> _logger;
+        private readonly ILogger<AuthorController> _logger;
 
-        public AuthorController(ILogger<AuthorService> logger, IAuthorService authorService)
+        public AuthorController(ILogger<AuthorController> logger, IAuthorService authorService)
         {
             _logger = logger;
             _authorService = authorService;

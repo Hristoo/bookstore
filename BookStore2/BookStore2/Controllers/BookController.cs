@@ -12,9 +12,9 @@ namespace BookStore2.Controllers
     {
 
         private readonly IBookService _bookServise;
-        private readonly ILogger<BookService> _logger;
+        private readonly ILogger<BookController> _logger;
 
-        public BookController(ILogger<BookService> logger, IBookService bookServise)
+        public BookController(ILogger<BookController> logger, IBookService bookServise)
         {
             _logger = logger;
             _bookServise = bookServise;

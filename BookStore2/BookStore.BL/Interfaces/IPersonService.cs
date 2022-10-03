@@ -15,6 +15,5 @@ namespace BookStore.BL.Interfaces
 
         Person UpdatePerson(Person person);
 
-        Guid GetGuid();
     }
 }

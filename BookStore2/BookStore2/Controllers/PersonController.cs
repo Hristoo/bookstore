@@ -13,9 +13,9 @@ namespace BookStore2.Controllers
     public class PersonController : ControllerBase
     {
         private readonly IPersonService  _personServise;
-        private readonly ILogger<PersonServise> _logger;
+        private readonly ILogger<PersonController> _logger;
 
-        public PersonController(ILogger<PersonServise> logger, IPersonService personServise)
+        public PersonController(ILogger<PersonController> logger, IPersonService personServise)
         {
             _logger = logger;
             _personServise = personServise;
@@ -55,12 +55,6 @@ namespace BookStore2.Controllers
             return person;
         }
 
-        [HttpGet(nameof(GetGuid))]
-
-        public Guid GetGuid()
-        {
-            return _personServise.GetGuid();
-        }
 
     }
 }

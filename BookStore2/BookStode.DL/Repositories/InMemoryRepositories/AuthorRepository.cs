@@ -12,13 +12,15 @@ namespace BookStode.DL.Repositories.InMemoryRepositories
             {
                 Id = 1,
                 Name = "Ivan Vazov",
-                Age = 95
+                Age = 95,
+                DateOfBirth = DateTime.Now,
             },
             new Author()
             {
                 Id = 1,
                 Name = "Elin Pelin",
                 Age = 65
+                DateOfBirth = DateTime.Now,
             }
         };
 
