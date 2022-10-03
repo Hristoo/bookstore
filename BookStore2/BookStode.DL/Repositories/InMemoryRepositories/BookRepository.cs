@@ -47,6 +47,11 @@ namespace BookStode.DL.Repositories.InMemoryRepositories
             return _books.FirstOrDefault(x =>x.Id == id);
         }
 
+        public Book? GetByTitle(string title)
+        {
+            return _books.FirstOrDefault(x => x.Title == title);
+        }
+
         public Book UpdateBook(Book book)
         {
             _books.Add(book);

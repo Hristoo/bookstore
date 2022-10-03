@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BookStode.DL.interfaces;
+﻿using System.Net;
+using AutoMapper;
 using BookStode.DL.Interfaces;
-using BookStode.DL.Repositories.InMemoryRepositories;
 using BookStore.BL.Interfaces;
 using BookStore.Models.Models;
+using BookStore.Models.Models.Requests;
+using BookStore.Models.Models.Responses;
+using Microsoft.Extensions.Logging;
 
 namespace BookStore.BL.Services
 {
@@ -15,17 +13,67 @@ namespace BookStore.BL.Services
     {
         public readonly IAuthorRepository _authorRepository;
 
-        public AuthorService(IAuthorRepository authorRepository)
+        private readonly IMapper _mapper;
+
+        private readonly ILogger<AuthorService> _logger;
+
+        public AuthorService(IAuthorRepository authorRepository, IMapper mapper, ILogger<AuthorService> logger)
         {
             _authorRepository = authorRepository;
+            _mapper = mapper;
+            _logger = logger;
         }
 
-        public Guid Id { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-
-        public Author? AddAuthor(Author autor)
+        public AddAuthorResponse AddAuthor(AddAuthorRequest authorRequest)
         {
-            _authorRepository.AddAuthor(autor);
-            return autor;
+            try
+            {
+
+                var auth = _authorRepository.GetAuthorByName(authorRequest.Name);
+
+                if (auth != null)
+
+                    return new AddAuthorResponse()
+                    {
+                        HttpStatusCode = HttpStatusCode.BadRequest,
+                        Message = "Author already exist"
+                    };
+
+                var author = _mapper.Map<Author>(authorRequest);
+                var result = _authorRepository.AddAuthor(author);
+
+                return new AddAuthorResponse()
+                {
+                    HttpStatusCode = HttpStatusCode.OK,
+                    Author = result
+                };
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e.Message, e);
+                throw;
+            }
+        }
+
+        public UpdateAuthorResponse UpdateAuthor(UpdateAuthorRequest authorRequest)
+        {
+            var auth = _authorRepository.GetAuthorByName(authorRequest.Name);
+
+            if (auth == null)
+                return new UpdateAuthorResponse()
+                {
+                    HttpStatusCode = HttpStatusCode.BadRequest,
+                    Message = "Author not exist"
+                };
+
+            var author = _mapper.Map<Author>(authorRequest);
+            var result = _authorRepository.UpdateAuthor(author);
+
+            return new UpdateAuthorResponse()
+            {
+                HttpStatusCode = HttpStatusCode.OK,
+                Author = result
+            };
         }
 
         public Author? DeleteAutor(int authorId)
@@ -42,14 +90,16 @@ namespace BookStore.BL.Services
             return _authorRepository.GetAllAuthors();
         }
 
+        public Author? GetAuthorByName(string name)
+        {
+            return _authorRepository.GetAuthorByName(name);
+        }
+
         public Author? GetById(int id)
         {
             return _authorRepository.GetById(id);
         }
 
-        public Person UpdateAuthor(Author autor)
-        {
-            return _authorRepository.UpdateAuthor(autor);
-        }
+
     }
 }

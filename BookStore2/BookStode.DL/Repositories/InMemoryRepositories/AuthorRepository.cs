@@ -19,18 +19,11 @@ namespace BookStode.DL.Repositories.InMemoryRepositories
             {
                 Id = 1,
                 Name = "Elin Pelin",
-                Age = 65
+                Age = 65,
                 DateOfBirth = DateTime.Now,
             }
         };
 
-
-        public Guid Id { get; set; }
-
-        public AuthorRepository()
-        {
-            Id = Guid.NewGuid();
-        }
 
         public IEnumerable<Author> GetAllAuthors()
         {
@@ -56,7 +49,7 @@ namespace BookStode.DL.Repositories.InMemoryRepositories
             return author;
         }
 
-        public Person UpdateAuthor(Author autor)
+        public Author UpdateAuthor(Author autor)
         {
             var existingUser = _authors.FirstOrDefault(x => x.Id == autor.Id);
 
@@ -78,5 +71,16 @@ namespace BookStode.DL.Repositories.InMemoryRepositories
             return author;
         }
 
+        public Author? GetAuthorByName(string name)
+        {
+           return _authors.FirstOrDefault(x => x.Name == name);
+        }
+
+        public Author GetAuthorByName(Author autor)
+        {
+            throw new NotImplementedException();
+        }
+
+       
     }
 }
