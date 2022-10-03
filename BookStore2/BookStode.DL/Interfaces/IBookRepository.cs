@@ -13,6 +13,7 @@ namespace BookStode.DL.Interfaces
         Book? DeleteBook(int bookId);
         IEnumerable<Book> GetAllBooks();
         Book? GetById(int id);
+        Book? GetByTitle(string title);
         Book UpdateBook(Book book);
     }
 }

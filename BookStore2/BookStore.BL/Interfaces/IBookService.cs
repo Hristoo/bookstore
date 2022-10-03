@@ -1,14 +1,16 @@
 ﻿using BookStode.DL.Interfaces;
 using BookStore.Models.Models;
+using BookStore.Models.Models.Requests;
+using BookStore.Models.Models.Responses;
 
 namespace BookStore.BL.Interfaces
 {
-    public interface IBookService : IBookRepository
+    public interface IBookService
     {
-        Book? AddBook(Book book);
+        AddBookResponse? AddBook(AddBookRequest bookRequest);
         Book? DeleteBook(int bookId);
         IEnumerable<Book> GetAllBooks();
         Book? GetById(int id);
-        Book UpdateBook(Book book);
+        AddBookResponse UpdateBook(AddBookRequest bookRequest);
     }
 }

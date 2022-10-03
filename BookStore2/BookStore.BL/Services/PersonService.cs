@@ -4,11 +4,11 @@ using BookStore.Models.Models;
 
 namespace BookStore.BL
 {
-    public class PersonServise : IPersonService
+    public class PersonService : IPersonService
     {
         public readonly IPersonRepository _personRepository;
 
-        public PersonServise(IPersonRepository personRepository)
+        public PersonService(IPersonRepository personRepository)
         {
             _personRepository = personRepository;
         }

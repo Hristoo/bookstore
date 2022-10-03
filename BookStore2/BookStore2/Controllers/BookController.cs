@@ -1,6 +1,8 @@
-﻿using BookStore.BL.Interfaces;
+﻿using System.Net;
+using BookStore.BL.Interfaces;
 using BookStore.BL.Services;
 using BookStore.Models.Models;
+using BookStore.Models.Models.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore2.Controllers
@@ -8,7 +10,7 @@ namespace BookStore2.Controllers
     [ApiController]
     [Route("[controller]")]
 
-    public class BookController
+    public class BookController : ControllerBase
     {
 
         private readonly IBookService _bookServise;
@@ -37,12 +39,33 @@ namespace BookStore2.Controllers
             return book;
         }
 
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost(nameof(AddBook))]
 
-        [HttpPost(nameof(Add))]
-        public bool Add(Book book)
+        public IActionResult AddBook([FromBody] AddBookRequest bookRequest)
         {
-            _bookServise.AddBook(book);
-            return true;
+            var result = _bookServise.AddBook(bookRequest);
+
+            if (result.HttpStatusCode == HttpStatusCode.BadRequest)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost(nameof(UpdateBook))]
+
+        public IActionResult UpdateBook([FromBody] AddBookRequest bookRequest)
+        {
+            var result = _bookServise.UpdateBook(bookRequest);
+
+            if (result.HttpStatusCode == HttpStatusCode.BadRequest)
+                return BadRequest(result);
+
+            return Ok(result);
         }
 
         [HttpPost(nameof(DeleteBook))]

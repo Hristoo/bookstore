@@ -1,8 +1,7 @@
-﻿using BookStode.DL.interfaces;
-using BookStode.DL.Interfaces;
+﻿using System.Net;
 using BookStore.BL.Interfaces;
-using BookStore.BL.Services;
 using BookStore.Models.Models;
+using BookStore.Models.Models.Requests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore2.Controllers
@@ -21,11 +20,57 @@ namespace BookStore2.Controllers
             _authorService = authorService;
         }
 
-        [HttpGet(nameof(Get))]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost(nameof(Get))]
 
-        public IEnumerable<Author> Get()
+        public IActionResult Get()
         {
-            return _authorService.GetAllAuthors();
+            _logger.LogInformation("");
+            return Ok(_authorService.GetAllAuthors());
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost(nameof(AddAuthor))]
+
+        public IActionResult AddAuthor([FromBody] AddAuthorRequest authorRequest)
+        {
+            var result = _authorService.AddAuthor(authorRequest);
+
+            if (result.HttpStatusCode == HttpStatusCode.BadRequest)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost(nameof(UpdateAuthor))]
+
+        public IActionResult UpdateAuthor([FromBody] UpdateAuthorRequest updateAuthorRequest)
+        {
+            var result = _authorService.UpdateAuthor(updateAuthorRequest);
+
+            if (result.HttpStatusCode == HttpStatusCode.BadRequest)
+                return BadRequest(result);
+
+            return Ok(result);
+        }
+
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [HttpPost(nameof(GetAuthorById))]
+
+        public IActionResult GetAuthorById(int id)
+        {
+            if (id <= 0) return BadRequest($"Id must be greater");
+            
+            var result = _authorService.GetById(id);
+
+            if (result == null) return NotFound(id);
+
+            return Ok(result);
         }
 
         [HttpGet(nameof(GetById))]
@@ -36,10 +81,15 @@ namespace BookStore2.Controllers
         }
 
         [HttpPost(nameof(Add))]
-        public bool Add(Author author)
+        public IActionResult Add(AddAuthorRequest author)
         {
-            _authorService.AddAuthor(author);
-            return true;
+            var result = _authorService.AddAuthor(author);
+
+            if (result.HttpStatusCode == HttpStatusCode.BadRequest)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
         }
 
         [HttpPost(nameof(DeleteAuthor))]
@@ -52,6 +102,12 @@ namespace BookStore2.Controllers
             return author;
         }
 
+        [HttpGet(nameof(GetAuthorByName))]
+        public Author? GetAuthorByName(string name)
+        {
+            var author = _authorService.GetAuthorByName(name);
+            return author;
+        }
 
     }
 }

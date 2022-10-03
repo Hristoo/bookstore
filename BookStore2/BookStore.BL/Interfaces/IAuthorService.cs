@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BookStode.DL.Interfaces;
+﻿using BookStode.DL.Interfaces;
 using BookStore.Models.Models;
+using BookStore.Models.Models.Requests;
+using BookStore.Models.Models.Responses;
 
-namespace BookStore.BL.Interfaces 
+namespace BookStore.BL.Interfaces
 {
-    public interface IAuthorService : IAuthorRepository
+    public interface IAuthorService
     {
-
-        public Author? AddAuthor(Author autor);
+        public AddAuthorResponse? AddAuthor(AddAuthorRequest autor);
 
         public Author? DeleteAutor(int authorId);
 
@@ -19,6 +15,10 @@ namespace BookStore.BL.Interfaces
 
         public Author? GetById(int id);
 
-        public Person UpdateAuthor(Author autor);
+        public UpdateAuthorResponse UpdateAuthor(UpdateAuthorRequest updateAuthorRequest);
+
+        public Author GetAuthorByName(string Name);
+
+
     }
 }

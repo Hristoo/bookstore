@@ -1,9 +1,8 @@
-﻿using BookStode.DL.interfaces;
-using BookStore.Models.Models;
+﻿using BookStore.Models.Models;
 
 namespace BookStore.BL.Interfaces
 {
-    public interface IPersonService : IPersonRepository
+    public interface IPersonService
     {
         Person? AddPerson(Person person);
 
