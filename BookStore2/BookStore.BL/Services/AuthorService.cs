@@ -28,7 +28,6 @@ namespace BookStore.BL.Services
         {
             try
             {
-                //throw new Exception();
 
                 var auth = _authorRepository.GetAuthorByName(authorRequest.Name);
 

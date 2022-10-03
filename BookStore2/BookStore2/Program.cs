@@ -16,10 +16,6 @@ builder.Services.RegisterRepositories()
     .RegisterServices()
     .AddAutoMapper(typeof(Program));
 
-//builder.Services.AddSingleton<IPersonService, PersonService>();
-//builder.Services.AddSingleton<IAuthorService, AuthorService>();
-//builder.Services.AddSingleton<IBookService, BookService>();
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
