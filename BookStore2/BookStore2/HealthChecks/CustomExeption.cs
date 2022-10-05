@@ -7,7 +7,7 @@ namespace BookStore2.HealthChecks
     {
         public async Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
         {
-  
+
                 try
                 {
                 
