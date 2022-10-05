@@ -4,14 +4,11 @@ namespace BookStode.DL.Interfaces
 {
     public interface IAuthorRepository
     {
-        Author? AddAuthor(Author autor);
-        Author? DeleteAutor(int authorId);
-        IEnumerable<Author> GetAllAuthors();
-        Author? GetById(int id);
-        Author GetAuthorByName(Author autor);
-        Author? GetAuthorByName(string name);
-
-        Author UpdateAuthor(Author autor);
-
+        public Task<Author?> AddAuthor(Author autor);
+        public Task<Author?> DeleteAutor(int authorId);
+        public Task<IEnumerable<Author>> GetAllAuthors();
+        public Task<Author?> GetById(int id);
+        public Task<Author> GetAuthorByName(string name);
+        public Task<Author> UpdateAuthor(Author autor);
     }
 }

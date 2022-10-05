@@ -1,15 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BookStore.Models.Models.Requests
+﻿namespace BookStore.Models.Models.Requests
 {
     public class AddBookRequest
     {
-        public string Title { get; set; }
+        public int Id { get; set; }
 
         public int AuthorId { get; set; }
+
+        public string Title { get; set; }
+
+        public int Quantity { get; set; }
+
+        public DateTime LastUpdated { get; set; }
+
+        public decimal Price { get; set; }
     }
 }

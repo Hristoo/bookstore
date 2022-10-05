@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BookStore.Models.Models;
+﻿using BookStore.Models.Models;
 
 namespace BookStode.DL.Interfaces
 {
     public interface IBookRepository
     {
-        Book? AddBook(Book book);
-        Book? DeleteBook(int bookId);
-        IEnumerable<Book> GetAllBooks();
-        Book? GetById(int id);
-        Book? GetByTitle(string title);
-        Book UpdateBook(Book book);
+        public Task<Book?> AddBook(Book book);
+        public Task<Book?> DeleteBook(int bookId);
+        public Task<IEnumerable<Book>> GetAllBooks();
+        public Task<Book?> GetById(int id);
+        public Task<Book?> GetByTitle(string title);
+        public Task<Book> UpdateBook(Book book);
+        public Task<Book> GetBookByAuthorId(int authorId);
     }
 }

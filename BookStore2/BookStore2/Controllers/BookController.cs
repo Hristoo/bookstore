@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using BookStore.BL.Interfaces;
-using BookStore.BL.Services;
 using BookStore.Models.Models;
 using BookStore.Models.Models.Requests;
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +11,6 @@ namespace BookStore2.Controllers
 
     public class BookController : ControllerBase
     {
-
         private readonly IBookService _bookServise;
         private readonly ILogger<BookController> _logger;
 
@@ -20,21 +18,18 @@ namespace BookStore2.Controllers
         {
             _logger = logger;
             _bookServise = bookServise;
-
         }
 
-
         [HttpGet(nameof(Get))]
-
-        public IEnumerable<Book> Get()
+        public async Task<IEnumerable<Book>> Get()
         {
-            return _bookServise.GetAllBooks();
+            return await _bookServise.GetAllBooks();
         }
 
         [HttpGet(nameof(GetById))]
-        public Book? GetById(int id)
+        public async Task<Book?> GetById(int id)
         {
-            var book = _bookServise.GetById(id);
+            var book = await _bookServise.GetById(id);
 
             return book;
         }
@@ -42,10 +37,9 @@ namespace BookStore2.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost(nameof(AddBook))]
-
-        public IActionResult AddBook([FromBody] AddBookRequest bookRequest)
+        public async Task<IActionResult> AddBook([FromBody] AddBookRequest bookRequest)
         {
-            var result = _bookServise.AddBook(bookRequest);
+            var result = await _bookServise.AddBook(bookRequest);
 
             if (result.HttpStatusCode == HttpStatusCode.BadRequest)
                 return BadRequest(result);
@@ -53,14 +47,12 @@ namespace BookStore2.Controllers
             return Ok(result);
         }
 
-
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost(nameof(UpdateBook))]
-
-        public IActionResult UpdateBook([FromBody] AddBookRequest bookRequest)
+        public async Task<IActionResult> UpdateBook([FromBody] AddBookRequest bookRequest)
         {
-            var result = _bookServise.UpdateBook(bookRequest);
+            var result = await _bookServise.UpdateBook(bookRequest);
 
             if (result.HttpStatusCode == HttpStatusCode.BadRequest)
                 return BadRequest(result);
@@ -69,14 +61,12 @@ namespace BookStore2.Controllers
         }
 
         [HttpPost(nameof(DeleteBook))]
-        public Book DeleteBook(int bookId)
+        public async Task<Book> DeleteBook(int bookId)
         {
-            var book = _bookServise.GetById(bookId);
-
+            var book = await _bookServise.GetById(bookId);
             _bookServise.DeleteBook(bookId);
 
             return book;
         }
-
     }
 }

@@ -1,0 +1,13 @@
+﻿namespace BookStore.Models.Models
+{
+    public class Author : Person
+    {
+<<<<<<< Updated upstream
+        public string NickName { get; set; }
+
+        public DateTime DateOfBirth { get; set; }
+=======
+        public string Nickname { get; set; }
+>>>>>>> Stashed changes
+    }
+}
