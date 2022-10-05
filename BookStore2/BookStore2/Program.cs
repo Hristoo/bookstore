@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
+using BookStore2.HealthChecks;
 
 var logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
@@ -21,11 +22,15 @@ builder.Services.RegisterRepositories()
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
 
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddHealthChecks()
+    .AddCheck<SqlHealthCheck>("SQL Server")
+    .AddCheck<CustomExeption>("Custom Check")
+    .AddUrlGroup(new Uri("https://google.com"), name: "Google Service");
 
 var app = builder.Build();
 
@@ -41,5 +46,9 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHealthChecks("/health");
+
+app.RegisterHealthChecks();
 
 app.Run();
