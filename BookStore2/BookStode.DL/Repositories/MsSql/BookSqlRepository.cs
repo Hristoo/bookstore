@@ -1,10 +1,12 @@
-﻿using System.Data.SqlClient;
+﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Xml.Linq;
 using BookStode.DL.Interfaces;
 using BookStore.Models.Models;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace BookStode.DL.Repositories.MsSql
 {
@@ -57,9 +59,25 @@ namespace BookStode.DL.Repositories.MsSql
             return null;
         }
 
-        public Task<IEnumerable<Book>> GetAllBooks()
+        public async Task<IEnumerable<Book>> GetAllBooks()
         {
-            throw new NotImplementedException();
+            try
+            {
+                await using (var conn = new SqlConnection(_configuration.GetConnectionString("DefaultConnection")))
+                {
+                    await conn.OpenAsync();
+
+                    var result = await conn.QueryAsync<Book>("SELECT * FROM Books WITH(NOLOCK) ");
+
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+                _logger.LogError($"Error in {nameof(GetAllBooks)}: {e.Message}", e.Message);
+            }
+
+            return null;
         }
 
         public async Task<Book?> GetById(int id)

@@ -20,8 +20,8 @@ namespace BookStore2.Controllers
             _bookServise = bookServise;
         }
 
-        [HttpGet(nameof(Get))]
-        public async Task<IEnumerable<Book>> Get()
+        [HttpGet(nameof(GetAllBooks))]
+        public async Task<IEnumerable<Book>> GetAllBooks()
         {
             return await _bookServise.GetAllBooks();
         }
