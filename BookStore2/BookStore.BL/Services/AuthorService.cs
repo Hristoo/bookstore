@@ -83,7 +83,12 @@ namespace BookStore.BL.Services
 
             if (isAuthorHaveBook != null)
             {
-                throw new Exception("The author can't be deleted");
+
+                var e = new Exception("The author can't be deleted");
+
+                _logger.LogError($"Error in {nameof(DeleteAutor)}: {e.Message}", e.Message);
+
+                throw e;
             }
 
             _authorRepository.DeleteAutor(authorId);
