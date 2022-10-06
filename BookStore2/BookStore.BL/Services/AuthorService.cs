@@ -71,29 +71,25 @@ namespace BookStore.BL.Services
             return new UpdateAuthorResponse()
             {
                 HttpStatusCode = HttpStatusCode.OK,
+                Message = "Author updated",
                 Author = result
             };
         }
 
         public async Task<Author?> DeleteAutor(int authorId)
         {
-            var author = _authorRepository.GetById(authorId);
-
+            var author = await _authorRepository.GetById(authorId);
             var isAuthorHaveBook = await _bookRepository.GetBookByAuthorId(authorId);
 
-            if (isAuthorHaveBook != null)
+            if (isAuthorHaveBook != null || author == null)
             {
-
                 var e = new Exception("The author can't be deleted");
 
-                _logger.LogError($"Error in {nameof(DeleteAutor)}: {e.Message}", e.Message);
-
-                throw e;
+                return new Author();
             }
+            await _authorRepository.DeleteAutor(authorId);
 
-            _authorRepository.DeleteAutor(authorId);
-
-            return await author;
+            return author;
         }
 
         public async Task<IEnumerable<Author>> GetAllAuthors()
