@@ -7,10 +7,10 @@ namespace BookStore.BL.Interfaces
 {
     public interface IBookService
     {
-        public Task<AddBookResponse?> AddBook(AddBookRequest bookRequest);
+        public Task<Models.Models.Responses.AddBookResponse?> AddBook(AddBookRequest bookRequest);
         public Task<Book?> DeleteBook(int bookId);
         public Task<IEnumerable<Book>> GetAllBooks();
         public Task<Book?> GetById(int id);
-        public Task<AddBookResponse> UpdateBook(AddBookRequest bookRequest);
+        public Task<Models.Models.Responses.AddBookResponse> UpdateBook(AddBookRequest bookRequest);
     }
 }

@@ -4,6 +4,9 @@ using FluentValidation;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 using BookStore2.HealthChecks;
+using MediatR;
+using BookStore.Models.Models.MediatR.Commands;
+using BookStore.BL.CommandHandlers;
 
 var logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
@@ -11,7 +14,7 @@ var logger = new LoggerConfiguration()
     .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
-
+//serilog
 builder.Logging.AddSerilog(logger);
 
 // Add services to the container.
@@ -27,10 +30,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//health checks
 builder.Services.AddHealthChecks()
     .AddCheck<SqlHealthCheck>("SQL Server")
     .AddCheck<CustomExeption>("Custom Check")
     .AddUrlGroup(new Uri("https://google.com"), name: "Google Service");
+
+builder.Services.AddMediatR(typeof(GetAllBooksHandler).Assembly);
 
 var app = builder.Build();
 

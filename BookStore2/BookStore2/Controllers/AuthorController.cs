@@ -1,7 +1,9 @@
 ﻿using System.Net;
 using BookStore.BL.Interfaces;
 using BookStore.Models.Models;
+using BookStore.Models.Models.MediatR.Commands;
 using BookStore.Models.Models.Requests;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BookStore2.Controllers
@@ -13,11 +15,13 @@ namespace BookStore2.Controllers
     {
         private readonly IAuthorService _authorService;
         private readonly ILogger<AuthorController> _logger;
+        private readonly IMediator _mediator;
 
-        public AuthorController(ILogger<AuthorController> logger, IAuthorService authorService)
+        public AuthorController(ILogger<AuthorController> logger, IAuthorService authorService, IMediator mediator)
         {
             _logger = logger;
             _authorService = authorService;
+            _mediator = mediator;
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -36,9 +40,10 @@ namespace BookStore2.Controllers
 
         public async Task<IActionResult> AddAuthor([FromBody] AddAuthorRequest authorRequest)
         {
-            var result = await _authorService.AddAuthor(authorRequest);
+            //var result = await _authorService.AddAuthor(authorRequest);
+            var result = await _mediator.Send(new AddAuthorCommand(authorRequest));
 
-            if (result.HttpStatusCode == HttpStatusCode.BadRequest)
+            if (result == null)
                 return BadRequest(result);
 
             return Ok(result);
@@ -101,7 +106,9 @@ namespace BookStore2.Controllers
         [HttpPost(nameof(DeleteAuthor))]
         public async Task<IActionResult> DeleteAuthor(int authorId)
         {
-            var author = await _authorService.DeleteAutor(authorId);
+            //var author = await _authorService.DeleteAutor(authorId);
+
+            var author = await _mediator.Send(new DeleteAuthorCommand(authorId));
 
             if (author == null || author.Id == 0)
             {

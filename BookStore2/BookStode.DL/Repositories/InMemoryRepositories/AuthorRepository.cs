@@ -67,7 +67,7 @@ namespace BookStode.DL.Repositories.InMemoryRepositories
             var author = _authors.FirstOrDefault(x => x.Id == authorId);
 
             _authors.Remove(author);
-
+             
             return author;
         }
 
