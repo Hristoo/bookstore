@@ -48,7 +48,7 @@ namespace BookStore2.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [HttpPost(nameof(UpdateAuthor))]
 
-        public async Task<IActionResult> UpdateAuthor([FromBody] UpdateAuthorRequest updateAuthorRequest, int id)
+        public async Task<IActionResult> UpdateAuthor([FromBody] UpdateAuthorRequest updateAuthorRequest)
         {
             var result = await _authorService.UpdateAuthor(updateAuthorRequest);
 
@@ -74,10 +74,16 @@ namespace BookStore2.Controllers
         }
 
         [HttpGet(nameof(GetById))]
-        public async Task<Author?> GetById(int id)
+        public async Task<IActionResult?> GetById(int id)
         {
-            var user = await _authorService.GetById(id);
-            return user;
+
+            var author = await _authorService.GetById(id);
+
+            if (author == null)
+            {
+                return NotFound();
+            }
+            return Ok(author);
         }
 
         [HttpPost(nameof(Add))]
@@ -93,20 +99,28 @@ namespace BookStore2.Controllers
         }
 
         [HttpPost(nameof(DeleteAuthor))]
-        public async Task<Person> DeleteAuthor(int authorId)
+        public async Task<IActionResult> DeleteAuthor(int authorId)
         {
             var author = await _authorService.DeleteAutor(authorId);
 
-            _authorService.DeleteAutor(authorId);
+            if (author == null || author.Id == 0)
+            {
+                return BadRequest(author);
+            }
 
-            return author;
+            return Ok(author);
         }
 
         [HttpGet(nameof(GetAuthorByName))]
-        public async Task<Author?> GetAuthorByName(string name)
+        public async Task<IActionResult> GetAuthorByName(string name)
         {
             var author = await _authorService.GetAuthorByName(name);
-            return author;
+
+            if (author == null)
+            {
+                return BadRequest(author);
+            }
+            return Ok(author);
         }
 
     }
