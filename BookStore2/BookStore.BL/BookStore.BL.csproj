@@ -16,8 +16,4 @@
     <ProjectReference Include="..\BookStore.Models\BookStore.Models.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="CommandHandlers\NewFolder\" />
-  </ItemGroup>
-
 </Project>

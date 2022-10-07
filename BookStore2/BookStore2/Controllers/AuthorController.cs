@@ -31,7 +31,7 @@ namespace BookStore2.Controllers
         public async Task<IActionResult> GetAllAuthors()
         {
             _logger.LogInformation("");
-            return Ok(await _authorService.GetAllAuthors());
+            return Ok(await _mediator.Send(new GetAllAuthorsCommand()));
         }
 
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -55,7 +55,8 @@ namespace BookStore2.Controllers
 
         public async Task<IActionResult> UpdateAuthor([FromBody] UpdateAuthorRequest updateAuthorRequest)
         {
-            var result = await _authorService.UpdateAuthor(updateAuthorRequest);
+            //var result = await _authorService.UpdateAuthor(updateAuthorRequest);
+            var result = await _mediator.Send(new UpdateAuthorCommand(updateAuthorRequest));
 
             if (result.HttpStatusCode == HttpStatusCode.BadRequest)
                 return BadRequest(result);
@@ -82,7 +83,8 @@ namespace BookStore2.Controllers
         public async Task<IActionResult?> GetById(int id)
         {
 
-            var author = await _authorService.GetById(id);
+            //var author = await _authorService.GetById(id);
+            var author = await _mediator.Send(new GetAuthorByIdCommand(id));
 
             if (author == null)
             {
@@ -121,7 +123,8 @@ namespace BookStore2.Controllers
         [HttpGet(nameof(GetAuthorByName))]
         public async Task<IActionResult> GetAuthorByName(string name)
         {
-            var author = await _authorService.GetAuthorByName(name);
+            //var author = await _authorService.GetAuthorByName(name);
+            var author = await _mediator.Send(new GetAuthorByNameCommand(name));
 
             if (author == null)
             {

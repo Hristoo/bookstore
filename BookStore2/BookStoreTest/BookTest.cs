@@ -4,9 +4,9 @@ namespace BookStore.Test
 {
     public class BookTest
     {
-        private List<Book> _books = new List<Book>()
+        private List<Author> _books = new List<Author>()
         {
-            new Book()
+            new Author()
             {
                 Id = 1,
                 AuthorId = 55,
@@ -15,7 +15,7 @@ namespace BookStore.Test
                 Quantity = 5,
                 LastUpdated = DateTime.Now,
             },
-            new Book()
+            new Author()
             {
                 Id = 2,
                 AuthorId = 5,

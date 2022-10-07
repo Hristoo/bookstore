@@ -22,14 +22,14 @@ namespace BookStore.BL.Services
             _authorRepository = authorRepository;
         }
 
-        public async Task<Models.Models.Responses.AddBookResponse> AddBook(AddBookRequest bookRequest)
+        public async Task<AddBookResponse> AddBook(AddBookRequest bookRequest)
         {
             var bookTitle = await _bookRepository.GetByTitle(bookRequest.Title);
             var author = await _authorRepository.GetById(bookRequest.AuthorId);
 
             if (author == null)
             {
-                return new Models.Models.Responses.AddBookResponse()
+                return new AddBookResponse()
                 {
                     HttpStatusCode = HttpStatusCode.BadRequest,
                     Message = "The author don't exist"
@@ -38,7 +38,7 @@ namespace BookStore.BL.Services
 
             if (bookTitle != null)
             {
-                return new Models.Models.Responses.AddBookResponse()
+                return new AddBookResponse()
                 {
                     HttpStatusCode = HttpStatusCode.BadRequest,
                     Message = "The book already exist"
