@@ -1,5 +1,4 @@
-﻿using BookStore.Models.Models.Responses;
-using MediatR;
+﻿using MediatR;
 
 namespace BookStore.Models.Models.MediatR.Commands
 {

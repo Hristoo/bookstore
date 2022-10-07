@@ -15,6 +15,8 @@ namespace BookStore2.Extentions
             services.AddSingleton<IPersonRepository, PersonRepository>();
             services.AddSingleton<IAuthorRepository, AuthorSqlRepository>();
             services.AddSingleton<IBookRepository, BookSqlRepository>();
+            services.AddSingleton<IEmployeesRepository, EmployeeSqlRepository>();
+            services.AddSingleton<IUserInfoRepository, UserInfoSqlRepository>();
 
             return services;
         }
@@ -24,6 +26,8 @@ namespace BookStore2.Extentions
             services.AddSingleton<IPersonService, PersonService>();
             services.AddSingleton<IAuthorService, AuthorService>();
             services.AddSingleton<IBookService, BookService>();
+            services.AddSingleton<IEmployeeService, EmployeeService>();
+            services.AddSingleton<IUserInfoService, EmployeeService>();
 
             return services;
         }

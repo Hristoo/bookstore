@@ -7,6 +7,11 @@ using BookStore2.HealthChecks;
 using MediatR;
 using BookStore.Models.Models.MediatR.Commands;
 using BookStore.BL.CommandHandlers;
+using BookStore2.MiddleWare;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
@@ -28,7 +33,44 @@ builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(x =>
+{
+    var jwtSecurityScheme = new OpenApiSecurityScheme
+    {
+        Scheme = "bearer",
+        BearerFormat = "JMT",
+        Name = "JMT Authentication",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Description = " Put **_ONLY_** you JWT Bearer token in the text box below",
+        Reference = new OpenApiReference
+        {
+            Id = JwtBearerDefaults.AuthenticationScheme,
+            Type = ReferenceType.SecurityScheme
+        }
+    };
+
+    x.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+    x.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {jwtSecurityScheme, Array.Empty<string>() }
+    });
+});
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+    options.RequireHttpsMetadata = false;
+    options.SaveToken = true;
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidAudience = builder.Configuration["Jwt:Audience"],
+        ValidIssuer = builder.Configuration["Jwt:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+    };
+});
 
 //health checks
 builder.Services.AddHealthChecks()
@@ -49,6 +91,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
@@ -56,5 +99,9 @@ app.MapControllers();
 app.MapHealthChecks("/health");
 
 app.RegisterHealthChecks();
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
+
+//app.UseMiddleware<CustomMiddlewareErrorHandler>();
 
 app.Run();
