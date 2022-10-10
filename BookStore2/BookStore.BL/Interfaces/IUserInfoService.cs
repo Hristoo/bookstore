@@ -6,5 +6,6 @@ namespace BookStore.BL.Interfaces
     {
         public Task<UserInfo?> GetUserInfoAsync(string email, string password);
 
+
     }
 }

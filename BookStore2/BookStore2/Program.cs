@@ -5,13 +5,15 @@ using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 using BookStore2.HealthChecks;
 using MediatR;
-using BookStore.Models.Models.MediatR.Commands;
 using BookStore.BL.CommandHandlers;
 using BookStore2.MiddleWare;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using BookStore.Models.Models.Users;
+using BookStode.DL.Repositories.MsSql;
+using BookStore.Models.Models;
 
 var logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
@@ -57,20 +59,26 @@ builder.Services.AddSwaggerGen(x =>
     });
 });
 
+
+builder.Services.AddAuthorization(options =>
+{
+options.AddPolicy("Admin", policy => { policy.RequireClaim("Admin"); });
+});
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
-    options.RequireHttpsMetadata = false;
-    options.SaveToken = true;
-    options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-    };
-});
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
 
 //health checks
 builder.Services.AddHealthChecks()
@@ -79,6 +87,8 @@ builder.Services.AddHealthChecks()
     .AddUrlGroup(new Uri("https://google.com"), name: "Google Service");
 
 builder.Services.AddMediatR(typeof(GetAllBooksHandler).Assembly);
+
+builder.Services.AddIdentity<UserInfo, UserRole>().AddUserStore<UserInfoStore>().AddRoleStore<UserRoleStore>();
 
 var app = builder.Build();
 

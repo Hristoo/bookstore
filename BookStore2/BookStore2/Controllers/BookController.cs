@@ -25,6 +25,7 @@ namespace BookStore2.Controllers
             _mediator = mediator;
         }
 
+        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpGet(nameof(GetAllBooks))]
         public async Task<IActionResult> GetAllBooks()
         {
