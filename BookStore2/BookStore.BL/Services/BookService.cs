@@ -12,7 +12,6 @@ namespace BookStore.BL.Services
     {
         public readonly IBookRepository _bookRepository;
         private readonly IAuthorRepository _authorRepository;
-
         private readonly IMapper _mapper;
 
 
@@ -46,7 +45,6 @@ namespace BookStore.BL.Services
                 };
             }
 
-
             var book = _mapper.Map<Book>(bookRequest);
             var result = await _bookRepository.AddBook(book);
 
@@ -78,7 +76,6 @@ namespace BookStore.BL.Services
             };
         }
 
-
         public async Task<Book?> DeleteBook(int bookId)
         {
             var book = await _bookRepository.GetById(bookId);
@@ -103,6 +100,5 @@ namespace BookStore.BL.Services
             var book = await _bookRepository.GetBookByAuthorId(id);
             return book;
         }
-
     }
 }

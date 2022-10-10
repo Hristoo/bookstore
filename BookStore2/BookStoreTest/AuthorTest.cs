@@ -35,14 +35,14 @@ namespace BookStoreTest
           }
         };
 
-        private IList<Book> _books = new List<Book>()
+        private IList<Author> _books = new List<Author>()
         {
-          new Book()
+          new Author()
           {
               Title = "title",
               AuthorId = 1,
           },
-          new Book()
+          new Author()
           {
               Title = "title2",
               AuthorId = 2,

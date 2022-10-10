@@ -4,6 +4,16 @@ using FluentValidation;
 using Serilog;
 using Serilog.Sinks.SystemConsole.Themes;
 using BookStore2.HealthChecks;
+using MediatR;
+using BookStore.BL.CommandHandlers;
+using BookStore2.MiddleWare;
+using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using BookStore.Models.Models.Users;
+using BookStode.DL.Repositories.MsSql;
+using BookStore.Models.Models;
 
 var logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
@@ -11,7 +21,7 @@ var logger = new LoggerConfiguration()
     .CreateLogger();
 
 var builder = WebApplication.CreateBuilder(args);
-
+//serilog
 builder.Logging.AddSerilog(logger);
 
 // Add services to the container.
@@ -25,12 +35,60 @@ builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(x =>
+{
+    var jwtSecurityScheme = new OpenApiSecurityScheme
+    {
+        Scheme = "bearer",
+        BearerFormat = "JMT",
+        Name = "JMT Authentication",
+        In = ParameterLocation.Header,
+        Type = SecuritySchemeType.Http,
+        Description = " Put **_ONLY_** you JWT Bearer token in the text box below",
+        Reference = new OpenApiReference
+        {
+            Id = JwtBearerDefaults.AuthenticationScheme,
+            Type = ReferenceType.SecurityScheme
+        }
+    };
 
+    x.AddSecurityDefinition(jwtSecurityScheme.Reference.Id, jwtSecurityScheme);
+    x.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {jwtSecurityScheme, Array.Empty<string>() }
+    });
+});
+
+
+builder.Services.AddAuthorization(options =>
+{
+options.AddPolicy("Admin", policy => { policy.RequireClaim("Admin"); });
+});
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        };
+    });
+
+//health checks
 builder.Services.AddHealthChecks()
     .AddCheck<SqlHealthCheck>("SQL Server")
     .AddCheck<CustomExeption>("Custom Check")
     .AddUrlGroup(new Uri("https://google.com"), name: "Google Service");
+
+builder.Services.AddMediatR(typeof(GetAllBooksHandler).Assembly);
+
+builder.Services.AddIdentity<UserInfo, UserRole>().AddUserStore<UserInfoStore>().AddRoleStore<UserRoleStore>();
 
 var app = builder.Build();
 
@@ -43,6 +101,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
@@ -50,5 +109,9 @@ app.MapControllers();
 app.MapHealthChecks("/health");
 
 app.RegisterHealthChecks();
+
+app.UseMiddleware<ErrorHandlingMiddleware>();
+
+//app.UseMiddleware<CustomMiddlewareErrorHandler>();
 
 app.Run();

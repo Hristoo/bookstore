@@ -48,7 +48,7 @@ namespace BookStode.DL.Repositories.MsSql
                 {
                     await conn.OpenAsync();
 
-                    var result = await conn.QueryFirstOrDefaultAsync<Author>("DELETE FROM Books WITH(NOLOCK) WHERE Id = @Id", new { Id = id });
+                    var result = await conn.QueryFirstOrDefaultAsync<Author>("DELETE FROM Books WHERE Id = @Id", new { Id = id });
                 }
             }
             catch (Exception e)
@@ -89,7 +89,7 @@ namespace BookStode.DL.Repositories.MsSql
                     await conn.OpenAsync();
 
                     var result = await conn.QueryFirstOrDefaultAsync<Book>("SELECT * FROM Books WITH(NOLOCK) WHERE Id = @Id", new { Id = id });
-                    return new Book();
+                    return result;
                 }
             }
             catch (Exception e)

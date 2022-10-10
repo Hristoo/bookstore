@@ -88,7 +88,7 @@ namespace BookStode.DL.Repositories.MsSql
                 {
                     await conn.OpenAsync();
 
-                    var result = await conn.QueryFirstOrDefaultAsync<Author>("DELETE FROM Authors WITH(NOLOCK) WHERE Id = @Id", new { Id = id });
+                    var result = await conn.QueryFirstOrDefaultAsync<Author>("DELETE FROM Authors WHERE Id = @Id", new { Id = id });
                 }
             }
             catch (Exception e)
