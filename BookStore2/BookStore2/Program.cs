@@ -14,6 +14,7 @@ using System.Text;
 using BookStore.Models.Models.Users;
 using BookStode.DL.Repositories.MsSql;
 using BookStore.Models.Models;
+using BookStore.BL.Background;
 
 var logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
@@ -89,6 +90,8 @@ builder.Services.AddHealthChecks()
 builder.Services.AddMediatR(typeof(GetAllBooksHandler).Assembly);
 
 builder.Services.AddIdentity<UserInfo, UserRole>().AddUserStore<UserInfoStore>().AddRoleStore<UserRoleStore>();
+
+builder.Services.AddHostedService<MyBackroundService>();
 
 var app = builder.Build();
 
