@@ -4,8 +4,9 @@ using BookStode.DL.Repositories.InMemoryRepositories;
 using BookStode.DL.Repositories.MsSql;
 using BookStore.BL;
 using BookStore.BL.Interfaces;
+using BookStore.BL.Kafka;
 using BookStore.BL.Services;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
 
 namespace BookStore2.Extentions
 {
@@ -30,6 +31,7 @@ namespace BookStore2.Extentions
             services.AddSingleton<IEmployeeService, EmployeeService>();
             //services.AddSingleton<IUserInfoService, EmployeeService>();
             services.AddTransient<IIdentityService, IdentityService>();
+            services.AddSingleton<Producer<int, int>>();
 
             return services;
         }
