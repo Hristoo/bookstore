@@ -15,6 +15,8 @@ using BookStore.Models.Models.Users;
 using BookStode.DL.Repositories.MsSql;
 using BookStore.Models.Models;
 using BookStore.BL.Background;
+using BookStore.Models.Models.Configurations;
+using BookStore.BL.Kafka;
 
 var logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
@@ -25,10 +27,19 @@ var builder = WebApplication.CreateBuilder(args);
 //serilog
 builder.Logging.AddSerilog(logger);
 
+builder.Services.Configure<MyJsonSettings>(
+    builder.Configuration.GetSection(nameof(MyJsonSettings)));
+
+// kafka settings
+builder.Services.Configure<KafkaSettings>(
+    builder.Configuration.GetSection(nameof(KafkaSettings)));
+
 // Add services to the container.
 builder.Services.RegisterRepositories()
     .RegisterServices()
     .AddAutoMapper(typeof(Program));
+
+builder.Services.AddHostedService<Consumer<int, int>>();
 
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));

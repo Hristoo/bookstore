@@ -1,9 +1,9 @@
 ﻿using MessagePack;
 
-namespace BookStore.Models.Models
+namespace KafkaConsumer
 {
     [MessagePackObject]
-    public class Person
+    public record Person
     {
         [Key(0)]
         public int Id { get; set; }
@@ -11,8 +11,5 @@ namespace BookStore.Models.Models
         public string Name { get; set; }
         [Key(2)]
         public int Age { get; set; }
-        [Key(3)]
-        public DateTime DateOfBirth { get; set; }
-
     }
 }

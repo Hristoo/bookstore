@@ -1,12 +1,20 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using BookStore.BL.Interfaces;
+using BookStore.BL.Kafka;
 using BookStore.Models.Models;
+using BookStore.Models.Models.Configurations;
 using BookStore.Models.Models.Users;
+using Confluent.Kafka;
+using MessagePack;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
 
 namespace BookStore2.Controllers
 {
@@ -17,11 +25,30 @@ namespace BookStore2.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IIdentityService _identityService;
+        private readonly IOptions<MyJsonSettings> _myJsonSettings;
+        private readonly Producer<int, int> _producer;
 
-        public IdentityController(IIdentityService identityService, IConfiguration configuration)
+        public IdentityController(IIdentityService identityService, IConfiguration configuration, IOptions<MyJsonSettings> myJsonSettings, Producer<int, int> producer)
         {
             _identityService = identityService;
             _configuration = configuration;
+            _myJsonSettings = myJsonSettings;
+            _producer = producer;
+        }
+
+        [AllowAnonymous]
+        [HttpPost(nameof(SendMessage))]
+        public async Task<ActionResult> SendMessage(int key, int value)
+        {
+            var msg = new Message<int, int>()
+            {
+                Key = key,
+                Value = value
+            };
+
+            await _producer.SendMessage(msg);
+
+            return Ok();
         }
 
         [AllowAnonymous]
