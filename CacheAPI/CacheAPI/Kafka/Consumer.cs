@@ -37,9 +37,6 @@ namespace BookStore.BL.Kafka
         {
             Task.Run(() =>
             {
-                //var list = _repo.GetDBInfo("prcGetAllBooks");
-
-                //var cr = _consumer.Consume();
                 Console.WriteLine($"Consumer");
             });
 
