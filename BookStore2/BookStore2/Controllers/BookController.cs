@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using BookStore.BL.Interfaces;
+using BookStore.BL.Kafka;
 using BookStore.Models.Models;
 using BookStore.Models.Models.MediatR.Commands;
 using BookStore.Models.Models.Requests;
@@ -17,26 +18,28 @@ namespace BookStore2.Controllers
         private readonly IBookService _bookServise;
         private readonly ILogger<BookController> _logger;
         private readonly IMediator _mediator;
+        private Consumer<int, Book> _consumer;
 
-        public BookController(ILogger<BookController> logger, IBookService bookServise, IMediator mediator)
+        public BookController(ILogger<BookController> logger, IBookService bookServise, IMediator mediator, Consumer<int, Book> consumer)
         {
             _logger = logger;
             _bookServise = bookServise;
             _mediator = mediator;
+            _consumer = consumer;
         }
 
-        [Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
+        //[Authorize(AuthenticationSchemes = "Bearer", Roles = "Admin")]
         [HttpGet(nameof(GetAllBooks))]
         public async Task<IActionResult> GetAllBooks()
         {
-            return Ok(await _mediator.Send(new GetAllBooksCommand()));
+            //return Ok(await _mediator.Send(new GetAllBooksCommand()));
+            return Ok(_consumer._cache._dictionary);
         }
 
         [HttpGet(nameof(GetById))]
         public async Task<Book?> GetById(int id)
         {
             //var book = await _bookServise.GetById(id);
-
             var book = await _mediator.Send(new GetBookByIdCommand(id));
 
             return book;

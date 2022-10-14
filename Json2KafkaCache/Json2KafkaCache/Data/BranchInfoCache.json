@@ -1,0 +1,47 @@
+[
+    {
+        "BranchID": 1,
+        "Name": "Soccer",
+        "OrderId": 1,
+        "IsActive": true,
+        "IsDrawCapable": true,
+        "ENetPulsBranchID": "s",
+        "LiveMasterLeagueID": 221,
+        "IsRacing": false,
+        "IsVirtualSport": false,
+        "AllowComboFromTheSameEvent": false,
+        "IsFixPO": false,
+        "NumberOfParts": 0,
+        "SecondsInOnePart": 0
+    },
+    {
+        "BranchID": 2,
+        "Name": "BasketBall",
+        "OrderId": 2,
+        "IsActive": true,
+        "IsDrawCapable": false,
+        "ENetPulsBranchID": "bb",
+        "LiveMasterLeagueID": 510,
+        "IsRacing": false,
+        "IsVirtualSport": false,
+        "AllowComboFromTheSameEvent": false,
+        "IsFixPO": false,
+        "NumberOfParts": 0,
+        "SecondsInOnePart": 0
+    },
+    {
+        "BranchID": 3,
+        "Name": "Football",
+        "OrderId": 3,
+        "IsActive": true,
+        "IsDrawCapable": false,
+        "ENetPulsBranchID": "fo",
+        "LiveMasterLeagueID": 556,
+        "IsRacing": false,
+        "IsVirtualSport": false,
+        "AllowComboFromTheSameEvent": false,
+        "IsFixPO": false,
+        "NumberOfParts": 0,
+        "SecondsInOnePart": 0
+    }
+]
