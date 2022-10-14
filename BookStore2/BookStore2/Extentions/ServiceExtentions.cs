@@ -6,7 +6,10 @@ using BookStore.BL;
 using BookStore.BL.Interfaces;
 using BookStore.BL.Kafka;
 using BookStore.BL.Services;
-using Microsoft.IdentityModel.Tokens;
+using BookStore.Caches;
+using BookStore.Models.Models;
+using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Newtonsoft.Json.Linq;
 
 namespace BookStore2.Extentions
 {
@@ -32,6 +35,8 @@ namespace BookStore2.Extentions
             //services.AddSingleton<IUserInfoService, EmployeeService>();
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddSingleton<Producer<int, int>>();
+            services.AddSingleton<Consumer<int, Book>>();
+            services.AddSingleton<Subcribe2Cache<int, Book>>();
 
             return services;
         }

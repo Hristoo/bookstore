@@ -1,12 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Xml.Linq;
+﻿using System.Data.SqlClient;
 using BookStode.DL.Interfaces;
 using BookStore.Models.Models;
 using Dapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace BookStode.DL.Repositories.MsSql
 {

@@ -1,18 +1,19 @@
-﻿using BookStore.Caches;
-using BookStore.Models.Models.Configurations;
+﻿using BookStore.Models.Models.Configurations;
+using CacheAPI.Models;
+using CacheAPI.Repositories;
 using Confluent.Kafka;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
 namespace BookStore.BL.Kafka
 {
-    public class Consumer<TKey, TValue> : IHostedService
+    public class Consumer<TKey, Tvalue> : IHostedService
     {
         private readonly IOptionsMonitor<KafkaSettings> _settings;
-        private readonly IConsumer<TKey, TValue> _consumer;
-        public Subcribe2Cache<TKey, TValue> _cache;
+        private readonly IConsumer<TKey, Tvalue> _consumer;
+        private readonly Repository<int, Book> _repo;
 
-        public Consumer(IOptionsMonitor<KafkaSettings> settings, Subcribe2Cache<TKey, TValue> cache)
+        public Consumer(IOptionsMonitor<KafkaSettings> settings, Repository<int, Book> repo)
         {
             _settings = settings;
 
@@ -23,24 +24,20 @@ namespace BookStore.BL.Kafka
                 GroupId = _settings.CurrentValue.GroupId,
             };
 
-            _consumer = new ConsumerBuilder<TKey, TValue>(config)
+            _consumer = new ConsumerBuilder<TKey, Tvalue>(config)
                 .SetKeyDeserializer(new CustomPackDeserialize<TKey>())
-                .SetValueDeserializer(new CustomPackDeserialize<TValue>())
+                .SetValueDeserializer(new CustomPackDeserialize<Tvalue>())
                 .Build();
 
-            _consumer.Subscribe($"{_settings.CurrentValue.Topic}.{typeof(TValue).Name}");
-            _cache = cache;
+            _consumer.Subscribe(_settings.CurrentValue.Topic);
+            _repo = repo;
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
         {
             Task.Run(() =>
-            {              
-                while (!cancellationToken.IsCancellationRequested)
-                {
-                    var cr = _consumer.Consume();
-                    _cache._dictionary.Add(cr.Message.Key, cr.Message.Value);
-                }
+            {
+                Console.WriteLine($"Consumer");
             });
 
             return Task.CompletedTask;

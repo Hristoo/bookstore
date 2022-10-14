@@ -1,6 +1,6 @@
 ﻿using MessagePack;
 
-namespace BookStore.Models.Models
+namespace CacheAPI.Models
 {
     [MessagePackObject]
     public class Book

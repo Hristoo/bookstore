@@ -39,7 +39,7 @@ builder.Services.RegisterRepositories()
     .RegisterServices()
     .AddAutoMapper(typeof(Program));
 
-builder.Services.AddHostedService<Consumer<int, int>>();
+builder.Services.AddHostedService<Consumer<int, Book>>();
 
 builder.Services.AddFluentValidationAutoValidation().AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining(typeof(Program));
