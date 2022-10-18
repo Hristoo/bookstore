@@ -1,6 +1,7 @@
 ﻿using BookStode.DL.interfaces;
 using BookStode.DL.Interfaces;
 using BookStode.DL.Repositories.InMemoryRepositories;
+using BookStode.DL.Repositories.MongoRepositories;
 using BookStode.DL.Repositories.MsSql;
 using BookStore.BL;
 using BookStore.BL.Interfaces;
@@ -22,6 +23,7 @@ namespace BookStore2.Extentions
             services.AddSingleton<IBookRepository, BookSqlRepository>();
             services.AddSingleton<IEmployeesRepository, EmployeeSqlRepository>();
             services.AddSingleton<IUserInfoRepository, UserInfoSqlRepository>();
+            services.AddSingleton<IShopingCartRepository, ShopingCartRepository>();
 
             return services;
         }
@@ -36,7 +38,10 @@ namespace BookStore2.Extentions
             services.AddTransient<IIdentityService, IdentityService>();
             services.AddSingleton<Producer<int, int>>();
             services.AddSingleton<Consumer<int, Book>>();
+            services.AddSingleton<IPurchaseRepository, PurchaseRepository>();
             services.AddSingleton<Subcribe2Cache<int, Book>>();
+            services.AddSingleton<IShopingCartService, ShopingCartService>();
+
 
             return services;
         }

@@ -34,6 +34,10 @@ builder.Services.Configure<MyJsonSettings>(
 builder.Services.Configure<KafkaSettings>(
     builder.Configuration.GetSection(nameof(KafkaSettings)));
 
+//MongoDB settings
+builder.Services.Configure<MongoDbConfiguration>(
+    builder.Configuration.GetSection(nameof(MongoDbConfiguration)));
+
 // Add services to the container.
 builder.Services.RegisterRepositories()
     .RegisterServices()
