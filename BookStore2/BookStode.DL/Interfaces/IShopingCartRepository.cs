@@ -4,7 +4,7 @@ namespace BookStode.DL.Interfaces
 {
     public interface IShopingCartRepository
     {
-        Task<List<Book>> GetContent(Book book);
+        Task<IEnumerable<ShopingCart>> GetContent(int userId);
 
         Task AddToCart(Book book);
 

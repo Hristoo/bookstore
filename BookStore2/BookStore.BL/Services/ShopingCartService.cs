@@ -50,9 +50,10 @@ namespace BookStore.BL.Services
             return Task.CompletedTask;
         }
 
-        public Task<IEnumerable<Purchase>> GetContent(int userId)
+        public async Task<IEnumerable<ShopingCart>> GetContent(int userId)
         {
-            return  _purchaseRepository.GetPurchases(userId);
+            //return  _purchaseRepository.GetPurchases(userId);
+            return await _shopingCartRepository.GetContent(userId);
         }
 
         public Book RemoveFromCart(int bookId)

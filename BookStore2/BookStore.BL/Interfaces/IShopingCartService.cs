@@ -4,7 +4,7 @@ namespace BookStore.BL.Interfaces
 {
     public interface IShopingCartService
     {
-        Task<IEnumerable<Purchase>> GetContent(int userId);
+        Task<IEnumerable<ShopingCart>> GetContent(int userId);
 
         Task AddToCart(Book book);
 

@@ -22,9 +22,9 @@ namespace BookStore2.Controllers
         }
 
         [HttpGet(nameof(GetContent))]
-        public Task<IEnumerable<Purchase>> GetContent(int userId)
+        public async Task<IEnumerable<ShopingCart>> GetContent(int userId)
         {
-            return _shopingCartService.GetContent(userId);
+            return await _shopingCartService.GetContent(userId);
         }
 
         [HttpGet(nameof(RemoveFromCart))]

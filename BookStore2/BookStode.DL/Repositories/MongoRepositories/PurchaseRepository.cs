@@ -23,7 +23,7 @@ namespace BookStode.DL.Repositories.MongoRepositories
             _mongoClient = new MongoClient(_mongoDbConfiguration.CurrentValue.ConnectionString);
 
             _database = _mongoClient.GetDatabase(_mongoDbConfiguration.CurrentValue.DatabaseName);
-            _purchaseCollection = _database.GetCollection<Purchase>("Purchase");
+            _purchaseCollection = _database.GetCollection<Purchase>(_mongoDbConfiguration.CurrentValue.PurchaseDatabase);
         }
 
         public async Task<Guid> DeletePurchase(Purchase purchase)

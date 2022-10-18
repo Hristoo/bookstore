@@ -11,7 +11,7 @@ namespace BookStode.DL.Repositories.MongoRepositories
         private ShopingCart _shopingCart;
         private readonly MongoClient _mongoClient;
         private IMongoDatabase _database;
-        private IMongoCollection<ShopingCart> _purchaseCollection;
+        private IMongoCollection<ShopingCart> _shopingCartCollection;
         private readonly IOptionsMonitor<MongoDbConfiguration> _mongoDbConfiguration;
 
 
@@ -19,18 +19,16 @@ namespace BookStode.DL.Repositories.MongoRepositories
         {
             _shopingCart = new ShopingCart();
             _mongoDbConfiguration = mongoDbConfiguration;
-
             _mongoClient = new MongoClient(_mongoDbConfiguration.CurrentValue.ConnectionString);
-
-            _database = _mongoClient.GetDatabase("ShopingCart");
-            _purchaseCollection = _database.GetCollection<ShopingCart>("ShopingCart");
+            _database = _mongoClient.GetDatabase(_mongoDbConfiguration.CurrentValue.DatabaseName);
+            _shopingCartCollection = _database.GetCollection<ShopingCart>(_mongoDbConfiguration.CurrentValue.ShopingCartDatabase);
         }
 
         public async Task AddToCart(Book book)
         {
             var cartBooks = _shopingCart.Books.ToList();
-            cartBooks.Add(book);    
-            //await _purchaseCollection.InsertOneAsync(_shopingCart);
+            cartBooks.Add(book);
+            await _shopingCartCollection.InsertOneAsync(_shopingCart);
         }
 
         public Task EmptyCart()
@@ -43,9 +41,10 @@ namespace BookStode.DL.Repositories.MongoRepositories
             throw new NotImplementedException();
         }
 
-        public Task<List<Book>> GetContent(Book book)
+        public async Task<IEnumerable<ShopingCart>> GetContent(int userId)
         {
-            throw new NotImplementedException();
+
+            return (await _shopingCartCollection.FindAsync(x => x.UserId == userId)).ToList();
         }
 
         public Task RemoveFromCart(Book book)
