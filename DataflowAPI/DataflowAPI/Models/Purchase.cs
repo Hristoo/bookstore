@@ -1,6 +1,6 @@
 ﻿using MessagePack;
 
-namespace BookStore.Models.Models
+namespace DataflowAPI.Models
 {
     [MessagePackObject]
     public class Purchase
@@ -15,6 +15,5 @@ namespace BookStore.Models.Models
         public int UserId { get; set; }
         [Key(4)]
         public IEnumerable<string> AdditionalInfo { get; set; } = Enumerable.Empty<string>();
-
     }
 }

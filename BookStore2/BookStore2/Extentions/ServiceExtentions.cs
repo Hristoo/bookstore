@@ -10,6 +10,7 @@ using BookStore.BL.Services;
 using BookStore.Caches;
 using BookStore.Models.Models;
 using Microsoft.AspNetCore.DataProtection.KeyManagement;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Linq;
 
 namespace BookStore2.Extentions
@@ -40,7 +41,21 @@ namespace BookStore2.Extentions
             services.AddSingleton<Consumer<int, Book>>();
             services.AddSingleton<IPurchaseRepository, PurchaseRepository>();
             services.AddSingleton<Subcribe2Cache<int, Book>>();
+            services.AddHostedService<DataflowService<Guid, Purchase>>();
             services.AddSingleton<IShopingCartService, ShopingCartService>();
+
+            services.AddHttpClient(Options.DefaultName, c =>
+            {
+                // ...
+            }).ConfigurePrimaryHttpMessageHandler(() =>
+            {
+                return new HttpClientHandler
+                {
+                    ClientCertificateOptions = ClientCertificateOption.Manual,
+                    ServerCertificateCustomValidationCallback =
+                        (httpRequestMessage, cert, certChain, policyErrors) => true
+                };
+            });
 
 
             return services;

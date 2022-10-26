@@ -1,5 +1,6 @@
 ﻿using BookStode.DL.Interfaces;
 using BookStore.BL.Interfaces;
+using BookStore.BL.Kafka;
 using BookStore.Models.Models;
 
 namespace BookStore.BL.Services
@@ -45,6 +46,7 @@ namespace BookStore.BL.Services
 
         public Task FinishPurchase()
         {         
+
             _purchaseRepository.SavePurchase(_purchase);
 
             return Task.CompletedTask;

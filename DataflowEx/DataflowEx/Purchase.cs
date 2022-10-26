@@ -1,9 +1,9 @@
 ﻿using MessagePack;
 
-namespace BookStore.Models.Models
+namespace DataflowEx
 {
     [MessagePackObject]
-    public class Purchase
+    public record Purchase
     {
         [Key(0)]
         public Guid Id { get; set; }
@@ -15,6 +15,5 @@ namespace BookStore.Models.Models
         public int UserId { get; set; }
         [Key(4)]
         public IEnumerable<string> AdditionalInfo { get; set; } = Enumerable.Empty<string>();
-
     }
 }

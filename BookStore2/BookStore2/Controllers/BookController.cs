@@ -28,6 +28,7 @@ namespace BookStore2.Controllers
             _consumer = consumer;
         }
 
+        [AllowAnonymous]
         [HttpGet(nameof(GetAllBooks))]
         public async Task<IActionResult> GetAllBooks()
         {

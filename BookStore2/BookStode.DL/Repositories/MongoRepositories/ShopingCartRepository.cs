@@ -18,10 +18,10 @@ namespace BookStode.DL.Repositories.MongoRepositories
         public ShopingCartRepository(IOptionsMonitor<MongoDbConfiguration> mongoDbConfiguration)
         {
             _shopingCart = new ShopingCart();
-            _mongoDbConfiguration = mongoDbConfiguration;
-            _mongoClient = new MongoClient(_mongoDbConfiguration.CurrentValue.ConnectionString);
-            _database = _mongoClient.GetDatabase(_mongoDbConfiguration.CurrentValue.DatabaseName);
-            _shopingCartCollection = _database.GetCollection<ShopingCart>(_mongoDbConfiguration.CurrentValue.ShopingCartDatabase);
+            //_mongoDbConfiguration = mongoDbConfiguration;
+            //_mongoClient = new MongoClient(_mongoDbConfiguration.CurrentValue.ConnectionString);
+            //_database = _mongoClient.GetDatabase(_mongoDbConfiguration.CurrentValue.DatabaseName);
+            //_shopingCartCollection = _database.GetCollection<ShopingCart>(_mongoDbConfiguration.CurrentValue.ShopingCartDatabase);
         }
 
         public async Task AddToCart(Book book)

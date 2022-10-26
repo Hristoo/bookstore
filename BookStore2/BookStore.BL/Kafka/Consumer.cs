@@ -1,4 +1,6 @@
-﻿using BookStore.Caches;
+﻿using BookStore.BL.Services;
+using BookStore.Caches;
+using BookStore.Models.Models;
 using BookStore.Models.Models.Configurations;
 using Confluent.Kafka;
 using Microsoft.Extensions.Hosting;
@@ -28,7 +30,7 @@ namespace BookStore.BL.Kafka
                 .SetValueDeserializer(new CustomPackDeserialize<TValue>())
                 .Build();
 
-            _consumer.Subscribe($"{_settings.CurrentValue.Topic}.{typeof(TValue).Name}");
+            _consumer.Subscribe($"{_settings.CurrentValue.Topic}");
             _cache = cache;
         }
 

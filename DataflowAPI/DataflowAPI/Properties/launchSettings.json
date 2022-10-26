@@ -1,6 +1,6 @@
 {
   "profiles": {
-    "BookStore2": {
+    "DataflowAPI": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "swagger",
@@ -8,7 +8,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "dotnetRunMessages": true,
-      "applicationUrl": "https://localhost:7272;http://localhost:5272"
+      "applicationUrl": "https://localhost:7043;http://localhost:5043"
     },
     "IIS Express": {
       "commandName": "IISExpress",
@@ -17,6 +17,13 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
+      "publishAllPorts": true,
+      "useSSL": true
     }
   },
   "$schema": "https://json.schemastore.org/launchsettings.json",
@@ -24,8 +31,8 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:59845",
-      "sslPort": 0
+      "applicationUrl": "http://localhost:10452",
+      "sslPort": 44314
     }
   }
 }

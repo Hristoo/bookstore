@@ -11,8 +11,6 @@
 
         public Task GetAll(CancellationToken cancellationToken)
         {
-
-
             return Task.CompletedTask;
         }
     }

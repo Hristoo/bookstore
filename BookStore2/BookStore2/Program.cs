@@ -35,8 +35,8 @@ builder.Services.Configure<KafkaSettings>(
     builder.Configuration.GetSection(nameof(KafkaSettings)));
 
 //MongoDB settings
-builder.Services.Configure<MongoDbConfiguration>(
-    builder.Configuration.GetSection(nameof(MongoDbConfiguration)));
+//builder.Services.Configure<MongoDbConfiguration>(
+//    builder.Configuration.GetSection(nameof(MongoDbConfiguration)));
 
 // Add services to the container.
 builder.Services.RegisterRepositories()
@@ -117,7 +117,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
