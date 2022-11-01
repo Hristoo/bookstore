@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32901.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GoRestTests", "SpecFlowProject\GoRestTests.csproj", "{C59675C8-6165-4561-B72D-897EE15778AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hristo.GoRestSpecFlow", "Hristo.GoRestSpecFlow\Hristo.GoRestSpecFlow.csproj", "{C676682A-750F-4EB3-96D5-DB8FE923A59C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C59675C8-6165-4561-B72D-897EE15778AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C59675C8-6165-4561-B72D-897EE15778AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C59675C8-6165-4561-B72D-897EE15778AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C59675C8-6165-4561-B72D-897EE15778AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C676682A-750F-4EB3-96D5-DB8FE923A59C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C676682A-750F-4EB3-96D5-DB8FE923A59C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C676682A-750F-4EB3-96D5-DB8FE923A59C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C676682A-750F-4EB3-96D5-DB8FE923A59C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E568BB84-0F71-4ED8-8FCA-EF35D0C777AC}
+	EndGlobalSection
+EndGlobal
